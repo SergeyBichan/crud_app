@@ -1,21 +1,15 @@
 package ru.myself.crud_app.dto;
 
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
-import ru.myself.crud_app.entity.Department;
 import ru.myself.crud_app.entity.Salary;
-import ru.myself.crud_app.entity.Sector;
+
+import java.math.BigDecimal;
 
 @Data
-@RequiredArgsConstructor
-@ToString
 public class UserDto {
     private Long id;
-    private String first_name;
-    private String last_name;
+    private String firstName;
+    private String lastName;
     private int age;
-    private Department department;
-    private Sector sector;
-    private Salary salary;
+    private BigDecimal salary;
 }
