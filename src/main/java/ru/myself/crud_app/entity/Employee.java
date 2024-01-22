@@ -1,35 +1,34 @@
 package ru.myself.crud_app.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
-@Entity
+import java.io.Serializable;
+
+@RequiredArgsConstructor
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Employee {
-    @Id
+@Entity
+public class Employee implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @OneToOne(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
-    )
-    @JoinColumn(
-            name = "id",
-            referencedColumnName = "user_id"
-    )
-    private User user;
+    @Id
+    @Column(name = "id")
+    private int id;
+    @Column(name = "firstname")
+    private String firstname;
+    @Column(name = "lastname")
+    private String lastname;
 
-    @OneToOne(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
-    )
-    @JoinColumn(
-            name = "id",
-            referencedColumnName = "department_id"
-    )
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @Fetch(FetchMode.JOIN)
+    @JoinColumn(name = "department_id", referencedColumnName = "id")
     private Department department;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @Fetch(FetchMode.JOIN)
+    @JoinColumn(name = "salary_id", referencedColumnName = "id")
+    private Salary salary;
 }

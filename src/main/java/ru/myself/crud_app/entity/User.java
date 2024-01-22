@@ -1,33 +1,23 @@
 package ru.myself.crud_app.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
+import java.io.Serializable;
 
 @Entity
+@RequiredArgsConstructor
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "users")
-public class User {
+@Table(name = "crud_user")
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "first_name")
     private String firstName;
+    @Column(name = "last_name")
     private String lastName;
+    @Column(name = "age")
     private int age;
-
-    @OneToOne(
-            mappedBy = "user"
-    )
-
-    private Salary salary;
-
-//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(
-//            name = "department_id"
-//    )
-//    private Department department;
-
 }
