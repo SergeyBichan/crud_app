@@ -29,14 +29,11 @@ public class EmployeeService {
 
 
     public List<EmployeeDto> getEmployeesByDepartment(Integer depId) {
-        try {
-            return
-                    convertedToDto(employeeRepo.findEmployeesByDepartment_Id(depId));
-        } catch (Exception e) {
-            throw new ResourceNotFoundException(
-                    "Department with id:" + depId + " not found!"
-            );
+            List<Employee> employeeList = employeeRepo.findEmployeesByDepartment_Id(depId);
+            if (employeeList.isEmpty()) {
+                throw new ResourceNotFoundException("Department with id:" + depId + " not found!");
         }
+        return convertedToDto(employeeList);
     }
 
 
