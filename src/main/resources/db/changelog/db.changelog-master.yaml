@@ -3,3 +3,5 @@ databaseChangeLog:
       file: classpath:/db/changelog/changes/001-initial-schema.sql
   - include:
       file: classpath:/db/changelog/changes/002-inserting-some-data-to-tables.sql
+  - include:
+      file: classpath:/db/changelog/changes/003-inserting-more-data-to-tables.sql

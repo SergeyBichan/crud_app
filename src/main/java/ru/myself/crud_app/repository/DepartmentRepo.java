@@ -6,4 +6,5 @@ import ru.myself.crud_app.entity.Department;
 
 @Repository
 public interface DepartmentRepo extends JpaRepository<Department, Long> {
+    Department findByName(String name);
 }

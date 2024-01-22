@@ -11,5 +11,4 @@ public class CrudAppConfiguration {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
-
 }

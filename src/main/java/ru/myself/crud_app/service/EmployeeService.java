@@ -20,11 +20,11 @@ public class EmployeeService {
 
 
     public List<EmployeeDto> getAllEmployees() {
-        try {
-            return convertedToDto(employeeRepo.findAll());
-        } catch (Exception e) {
-            throw new ResourceNotFoundException("Employees not found!");
-        }
+            List<Employee> employeeList = employeeRepo.findAll();
+            if (employeeList.isEmpty()) {
+                throw new ResourceNotFoundException("Employees not found!");
+            }
+            return convertedToDto(employeeList);
     }
 
 
