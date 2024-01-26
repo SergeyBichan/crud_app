@@ -27,11 +27,6 @@ public class DepartmentServiceImpl implements DepartmentService {
     public final ModelMapper modelMapper;
 
     public List<DepartmentDto> getAllDepartments() {
-        //Так лучше ведь? только вот может ли быть ситуация, когда департаментов нет? я должен это предусмотреть?
-//        return departmentRepo.findAll()
-//                .stream()
-//                .map(data -> modelMapper.map(data, DepartmentDto.class))
-//                .collect(Collectors.toList());
         return convertedToDto(departmentRepo.findAll());
 
     }
@@ -40,20 +35,6 @@ public class DepartmentServiceImpl implements DepartmentService {
         return convertedToDto(departmentRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Department with id:" + id + " not found!")));
     }
-
-//    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "name can't be empty")
-//    @Transactional
-//    public void save(DepartmentDto departmentDto) {
-//        Optional<Department> optionalDepartment =
-//                Optional.ofNullable(departmentRepo.findByName(departmentDto.getName()));
-//        if (optionalDepartment.isEmpty()) {
-//            Department departmentToSave = modelMapper.map(departmentDto, Department.class);
-//            departmentRepo.save(departmentToSave);
-//            log.info(departmentToSave.getName());
-//        } else {
-//            throw new ResourceIsFoundException("Department with name: " + departmentDto.getName() + " is exist!");
-//        }
-//    }
 
     @Override
     public Map<String, String> save(DepartmentDto departmentDto) {

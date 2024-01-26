@@ -1,7 +1,6 @@
 package ru.myself.crud_app.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.myself.crud_app.dto.EmployeeDto;
