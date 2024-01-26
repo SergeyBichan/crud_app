@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import ru.myself.crud_app.exception.AppError;
+import ru.myself.crud_app.exception.ResourceIsFoundException;
 import ru.myself.crud_app.exception.ResourceNotFoundException;
 
 @ControllerAdvice
@@ -16,5 +17,12 @@ public class GlobalExceptionHandler {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(new AppError(HttpStatus.NOT_FOUND.value(), e.getMessage()),
                 HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<AppError> catchResourceIsFoundException(ResourceIsFoundException e) {
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST.value(), e.getMessage()),
+                HttpStatus.BAD_REQUEST);
     }
 }

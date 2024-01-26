@@ -1,46 +1,14 @@
 package ru.myself.crud_app.service;
 
-import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Service;
 import ru.myself.crud_app.dto.EmployeeDto;
 import ru.myself.crud_app.entity.Employee;
-import ru.myself.crud_app.exception.ResourceNotFoundException;
-import ru.myself.crud_app.repository.EmployeeRepo;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
-@Service
-@RequiredArgsConstructor
-public class EmployeeService {
-
-    private final EmployeeRepo employeeRepo;
-    private final ModelMapper modelMapper;
-
-
-    public List<EmployeeDto> getAllEmployees() {
-            List<Employee> employeeList = employeeRepo.findAll();
-            if (employeeList.isEmpty()) {
-                throw new ResourceNotFoundException("Employees not found!");
-            }
-            return convertedToDto(employeeList);
-    }
-
-
-    public List<EmployeeDto> getEmployeesByDepartment(Integer depId) {
-            List<Employee> employeeList = employeeRepo.findEmployeesByDepartment_Id(depId);
-            if (employeeList.isEmpty()) {
-                throw new ResourceNotFoundException("Department with id:" + depId + " not found!");
-        }
-        return convertedToDto(employeeList);
-    }
-
-
-    private List<EmployeeDto> convertedToDto(List<Employee> employees) {
-        return employees
-                .stream()
-                .map(data -> modelMapper.map(data, EmployeeDto.class))
-                .collect(Collectors.toList());
-    }
+public interface EmployeeService {
+    List<EmployeeDto> getAllEmployees();
+    List<EmployeeDto> getEmployeesByDepartment(Integer depId);
+    EmployeeDto getEmployeeById(Integer id);
+    Map<String, String> save(EmployeeDto employeeDto);
 }
