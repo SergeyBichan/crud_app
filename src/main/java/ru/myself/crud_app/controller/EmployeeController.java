@@ -31,7 +31,7 @@ public class EmployeeController {
 
     @PostMapping("/employees")
     public ResponseEntity<Map<String, String>> createEmployee(@RequestBody Employee employee) {
-        return new ResponseEntity<Map<String, String>>
+        return new ResponseEntity<>
                 (employeeService.create(employee), HttpStatus.CREATED);
     }
 }

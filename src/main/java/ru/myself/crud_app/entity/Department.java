@@ -18,6 +18,6 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "department")
     private Set<Employee> employees;
 }
