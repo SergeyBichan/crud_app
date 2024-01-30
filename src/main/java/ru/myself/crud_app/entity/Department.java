@@ -1,35 +1,23 @@
 package ru.myself.crud_app.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.proxy.HibernateProxy;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.io.Serializable;
-import java.util.Objects;
+import java.util.Set;
 
-@RequiredArgsConstructor
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@ToString
-@Entity
-public class Department implements Serializable {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Department {
     @Id
-    @Column(name = "id")
-    private int id;
-    @Column(name = "name")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Department that = (Department) o;
-        return id == that.id && Objects.equals(name, that.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
-    }
+    @OneToMany
+    private Set<Employee> employees;
 }

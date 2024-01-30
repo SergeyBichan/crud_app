@@ -1,12 +1,13 @@
 package ru.myself.crud_app.dto;
 
-import lombok.*;
+import jakarta.persistence.OneToMany;
+import ru.myself.crud_app.entity.Employee;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+import java.util.Set;
+
 public class DepartmentDto {
     private Long id;
-    @NonNull
     private String name;
+    @OneToMany
+    private Set<Employee> employees;
 }
