@@ -1,23 +1,29 @@
 package ru.myself.crud_app.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Getter
 @Setter
-public class Department {
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "departmentId"
+)
+public class Department implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long departmentId;
     private String name;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "department")
-    private Set<Employee> employees;
+
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
+    private List<Employee> employees;
 }
