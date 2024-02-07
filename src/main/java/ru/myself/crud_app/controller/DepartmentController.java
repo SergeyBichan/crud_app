@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.myself.crud_app.entity.Department;
+import ru.myself.crud_app.dto.DepartmentDto;
 import ru.myself.crud_app.service.impl.DepartmentServiceImpl;
 
 import java.util.List;
@@ -15,10 +15,10 @@ import java.util.List;
 @RequestMapping("/api")
 public class DepartmentController {
 
-    private final DepartmentServiceImpl departmentService;
+    private final DepartmentServiceImpl departmentServiceImpl;
 
     @GetMapping("/departments")
-    public ResponseEntity<List<Department>> getAllDepartments() {
-        return ResponseEntity.ok(departmentService.getAllDepartments());
+    public ResponseEntity<List<DepartmentDto>> getAllDepartments() {
+        return ResponseEntity.ok(departmentServiceImpl.getAllDepartments());
     }
 }

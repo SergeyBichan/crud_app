@@ -2,7 +2,11 @@ package ru.myself.crud_app.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import ru.myself.crud_app.dto.DepartmentDto;
+import ru.myself.crud_app.dto.EmployeeDto;
+import ru.myself.crud_app.entity.Department;
 import ru.myself.crud_app.entity.Employee;
 import ru.myself.crud_app.exception.ResourceIsFoundException;
 import ru.myself.crud_app.exception.ResourceNotFoundException;
@@ -19,10 +23,33 @@ import java.util.Optional;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepo employeeRepo;
+    private final ModelMapper modelMapper;
 
     @Override
-    public List<Employee> getAllEmployees() {
-        return employeeRepo.findAll();
+    public List<EmployeeDto> getAllEmployees() {
+        List<Employee> employeeList = employeeRepo.findAll();
+        List<EmployeeDto> employeeDtoList = new ArrayList<>();
+
+        for (int i = 0; i < employeeList.size(); i++) {
+            EmployeeDto employeeDto = new EmployeeDto();
+
+            Long id = employeeList.get(i).getEmployeeId();
+            String fName = employeeList.get(i).getFirstName();
+            String lName = employeeList.get(i).getLastName();
+            int age = employeeList.get(i).getAge();
+            DepartmentDto department = modelMapper
+                    .map(employeeList.get(i).getDepartment(), DepartmentDto.class);
+
+            employeeDto.setId(id);
+            employeeDto.setFirstName(fName);
+            employeeDto.setLastName(lName);
+            employeeDto.setAge(age);
+            employeeDto.setDepartmentDto(department);
+
+            employeeDtoList.add(employeeDto);
+        }
+
+        return employeeDtoList;
     }
 
     @Override

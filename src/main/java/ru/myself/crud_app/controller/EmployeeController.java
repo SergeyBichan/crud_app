@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.myself.crud_app.dto.EmployeeDto;
 import ru.myself.crud_app.entity.Employee;
 import ru.myself.crud_app.service.impl.EmployeeServiceImpl;
 
@@ -19,7 +20,7 @@ public class EmployeeController {
     private final EmployeeServiceImpl employeeService;
 
     @GetMapping("/employees")
-    public ResponseEntity<List<Employee>> getAllEmployees(){
+    public ResponseEntity<List<EmployeeDto>> getAllEmployees(){
         return ResponseEntity.ok(employeeService.getAllEmployees());
     }
 
