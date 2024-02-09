@@ -4,12 +4,9 @@ import lombok.*;
 
 import java.util.List;
 
-@RequiredArgsConstructor
-@Getter
-@Setter
-@ToString
+@Data
 public class DepartmentDto {
     private Long id;
     private String name;
-    private List<EmployeeDto> employeesDto;
+    private List<EmployeeDtoWithoutDepartment> employeesDto;
 }

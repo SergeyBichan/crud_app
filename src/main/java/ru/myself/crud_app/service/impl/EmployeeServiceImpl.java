@@ -4,9 +4,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import ru.myself.crud_app.dto.DepartmentDto;
+import ru.myself.crud_app.dto.DepartmentDtoWithoutEmployees;
 import ru.myself.crud_app.dto.EmployeeDto;
-import ru.myself.crud_app.entity.Department;
 import ru.myself.crud_app.entity.Employee;
 import ru.myself.crud_app.exception.ResourceIsFoundException;
 import ru.myself.crud_app.exception.ResourceNotFoundException;
@@ -37,8 +36,8 @@ public class EmployeeServiceImpl implements EmployeeService {
             String fName = employeeList.get(i).getFirstName();
             String lName = employeeList.get(i).getLastName();
             int age = employeeList.get(i).getAge();
-            DepartmentDto department = modelMapper
-                    .map(employeeList.get(i).getDepartment(), DepartmentDto.class);
+            DepartmentDtoWithoutEmployees department = modelMapper
+                    .map(employeeList.get(i).getDepartment(), DepartmentDtoWithoutEmployees.class);
 
             employeeDto.setId(id);
             employeeDto.setFirstName(fName);
@@ -53,23 +52,42 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee findById(Long id) {
-        return employeeRepo.findById(id).orElseThrow(
+    public EmployeeDto findById(Long id) {
+        Employee employee = employeeRepo.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Not found employee by id:" + id)
         );
+        EmployeeDto dto = new EmployeeDto();
+
+        dto.setId(employee.getEmployeeId());
+        dto.setFirstName(employee.getFirstName());
+        dto.setLastName(employee.getLastName());
+        dto.setAge(employee.getAge());
+        dto.setSalary(employee.getSalary());
+        dto.setDepartmentDto(modelMapper.map(employee.getDepartment(), DepartmentDtoWithoutEmployees.class));
+
+        return dto;
     }
     @Transactional
     @Override
-    public Map<String, String> create(Employee employee) {
-        Optional<Employee> _employee = employeeRepo.findByFirstNameAndLastName(employee.getFirstName(), employee.getLastName());
+    public Map<String, String> create(EmployeeDto employee) {
+        Optional<Employee> _employee = employeeRepo.findByFirstNameAndLastName(
+                employee.getFirstName(), employee.getLastName()
+        );
 
         if (_employee.isPresent()){
             throw new ResourceIsFoundException(
                     "Employee with first name:" + employee.getFirstName() +
                             " and last name:" + employee.getLastName() + " already exist!");
         }
-        employeeRepo.save(employee);
+
+        Employee employeeToSave = modelMapper.map(employee, Employee.class);
+        employeeRepo.save(employeeToSave);
         return Map.of("message", "employee successfully saved!");
+    }
+
+    @Override
+    public Map<String, String> update(EmployeeDto employee) {
+        return null;
     }
 
 

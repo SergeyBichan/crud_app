@@ -4,14 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import ru.myself.crud_app.dto.DepartmentDto;
-import ru.myself.crud_app.dto.EmployeeDto;
+import ru.myself.crud_app.dto.EmployeeDtoWithoutDepartment;
 import ru.myself.crud_app.entity.Department;
+import ru.myself.crud_app.exception.ResourceNotFoundException;
 import ru.myself.crud_app.repository.DepartmentRepo;
 import ru.myself.crud_app.service.DepartmentService;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -32,20 +31,29 @@ public class DepartmentServiceImpl implements DepartmentService {
 
             Long id = departments.get(i).getDepartmentId();
             String name = departments.get(i).getName();
-            List<EmployeeDto> employeeDtos = departments.get(i)
+            List<EmployeeDtoWithoutDepartment> employeeDtosWithoutDepartment = departments.get(i)
                     .getEmployees()
                     .stream()
-                    .map((element) -> modelMapper.map(element, EmployeeDto.class))
+                    .map((element) -> modelMapper.map(element, EmployeeDtoWithoutDepartment.class))
                     .toList();
 
             tempDepartmentDto.setId(id);
             tempDepartmentDto.setName(name);
-            tempDepartmentDto.setEmployeesDto(employeeDtos);
+            tempDepartmentDto.setEmployeesDto(employeeDtosWithoutDepartment);
 
             departmentDtos.add(tempDepartmentDto);
         }
 
         return departmentDtos;
 
+    }
+
+    @Override
+    public DepartmentDto getDepartmentById(Long id) {
+        Department department = departmentRepo.findById(id).orElseThrow(
+                ()-> new ResourceNotFoundException("Department with id:" + id + " not found!")
+        );
+
+        return modelMapper.map(department, DepartmentDto.class);
     }
 }

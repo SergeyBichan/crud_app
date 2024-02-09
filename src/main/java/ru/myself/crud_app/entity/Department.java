@@ -23,6 +23,7 @@ public class Department implements Serializable {
     private Long departmentId;
     private String name;
 
-    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "department",
+            fetch = FetchType.LAZY)
     private List<Employee> employees;
 }
